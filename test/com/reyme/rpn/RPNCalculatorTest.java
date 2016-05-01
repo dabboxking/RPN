@@ -59,6 +59,9 @@ public class RPNCalculatorTest extends TestCase {
         oooStore[2] = "/";
     }
 
+    /**
+     * Test for {@link RPNCalculator#evaluate(String[])}
+     */
     public void testEvaluate() {
         String emptyResult = RPNCalculator.evaluate(emptyStore);
         assertEquals("",emptyResult);
@@ -88,6 +91,9 @@ public class RPNCalculatorTest extends TestCase {
         assertEquals("Infinity",oooResult);
     }
 
+    /**
+     * Test for {@link RPNCalculator#canEvaluate(String[])}
+     */
     public void testCanEvaluate() {
         boolean resultA = RPNCalculator.canEvaluate(emptyStore);
         assertFalse(resultA);
@@ -105,6 +111,9 @@ public class RPNCalculatorTest extends TestCase {
         assertTrue(resultE);
     }
 
+    /**
+     * Test for {@link RPNCalculator#isOperand(String)}
+     */
     public void testIsOperand() {
 
         assertFalse(RPNCalculator.isOperand(""));
@@ -121,6 +130,9 @@ public class RPNCalculatorTest extends TestCase {
         assertTrue(RPNCalculator.isOperand("-1.0"));
     }
 
+    /**
+     * Test for {@link RPNCalculator#isOperator(String)}
+     */
     public void testIsOperator() {
 
         assertFalse(RPNCalculator.isOperator(""));

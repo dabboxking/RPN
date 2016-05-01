@@ -14,6 +14,10 @@ public class RPNCalculator {
     private static float operandB;
     private static String operator;
 
+    /**
+     * TODO
+     * @param in
+     */
     public void processUserInput(String in) {
         if(isOperand(in)) {
             System.out.println("operand: " + in);
@@ -64,6 +68,11 @@ public class RPNCalculator {
         }
     }
 
+    /**
+     * TODO
+     * @param store
+     * @return
+     */
     public static String evaluate(String[] store) {
         String result = "";
         if(canEvaluate(store)) {
@@ -86,13 +95,19 @@ public class RPNCalculator {
                     break;
             }
             // put result back in rpnStore
-            store = new String[3];
-            store[0] = result;
-            System.out.println("output: " + store[0]);
+            // clear store
+            rpnStore = new String[3];
+            rpnStore[0] = result;
+            System.out.println("output: " + rpnStore[0]);
         }
         return result;
     }
 
+    /**
+     * TODO
+     * @param operand
+     * @return
+     */
     public static boolean isOperand(String operand) {
         if(operand == null) {
             return false;
@@ -100,6 +115,11 @@ public class RPNCalculator {
         return operand.matches(OPERAND_REGEX);
     }
 
+    /**
+     * TODO
+     * @param operator
+     * @return
+     */
     public static boolean isOperator(String operator) {
         if(operator == null) {
             return false;
