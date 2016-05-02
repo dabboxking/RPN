@@ -9,13 +9,13 @@ public class RPNCalculator {
     private static final String OPERAND_REGEX = "^-?[0-9]\\d*(\\.\\d+)?$";
     // only one occurrence of '-','+','/','*'
     private static final String OPERATOR_REGEX = "[-+/*]{1}";
-    private static String[] rpnStore = new String[3];
+    private static String[] rpnStore = new String[10];
     private static float operandA;
     private static float operandB;
-    private static String operator;
+    private static int MAX_SIZE = 10;
 
     /**
-     * TODO
+     * Processes user's input
      * @param in
      */
     public void processUserInput(String in) {
@@ -23,12 +23,9 @@ public class RPNCalculator {
             System.out.println("operand: " + in);
             // add to rpnStore
             add(in);
-        } else if(isOperator(in) && canStoreOperator()) {
+        } else if(isOperator(in)) {
             System.out.println("operator: " + in);
-            // check if calculator can evaluate
-            // otherwise add operator to rpnStore
-            add(in);
-            evaluate(rpnStore);
+            evaluate(rpnStore,in);
         } else if("q".equalsIgnoreCase(in)){
             System.out.println("Exiting!");
         } else {
@@ -38,20 +35,12 @@ public class RPNCalculator {
 
     /**
      *
-     * @return true if and only if rpnStore has two operands stored
-     */
-    public static boolean canStoreOperator() {
-        return isOperand(rpnStore[0]) && isOperand(rpnStore[1]);
-    }
-
-    /**
-     *
      * @param store
      * @return true if and only if store has two operands in first and
      * second indexes and operator in third index
      */
     public static boolean canEvaluate(String[] store) {
-        return isOperand(store[0]) && isOperand(store[1]) && isOperator(store[2]);
+        return isOperand(store[0]) && isOperand(store[1]);
     }
 
     /**
@@ -69,16 +58,17 @@ public class RPNCalculator {
     }
 
     /**
-     * TODO
+     * Evaluates the given expression by taking the first two arguments
+     * from rpnStore then applies the operator to the two operands
      * @param store
+     * @param operator
      * @return
      */
-    public static String evaluate(String[] store) {
+    public static String evaluate(String[] store,String operator) {
         String result = "";
-        if(canEvaluate(store)) {
+        if(canEvaluate(store) && operator != null) {
             operandA = Float.parseFloat(store[0]);
             operandB = Float.parseFloat(store[1]);
-            operator = store[2];
             switch (operator) {
                 case "+":
                     result = Float.toString(operandA + operandB);
@@ -94,19 +84,26 @@ public class RPNCalculator {
                 default:
                     break;
             }
-            // put result back in rpnStore
-            // clear store
-            rpnStore = new String[3];
+
             rpnStore[0] = result;
+            shift();
             System.out.println("output: " + rpnStore[0]);
         }
         return result;
     }
 
     /**
-     * TODO
+     * Starting from index 1 shift rpnStore values to the left
+     */
+    public static void shift() {
+        for(int i = 1; i < rpnStore.length -1; i++ ) {
+            rpnStore[i] = rpnStore[i+1];
+        }
+    }
+
+    /**
      * @param operand
-     * @return
+     * @return true if and only if the given operand matches {@link RPNCalculator#OPERAND_REGEX}
      */
     public static boolean isOperand(String operand) {
         if(operand == null) {
@@ -116,9 +113,8 @@ public class RPNCalculator {
     }
 
     /**
-     * TODO
      * @param operator
-     * @return
+     * @return true if and only if the given operand matches {@link RPNCalculator#OPERATOR_REGEX}
      */
     public static boolean isOperator(String operator) {
         if(operator == null) {

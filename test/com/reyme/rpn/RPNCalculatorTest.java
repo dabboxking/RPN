@@ -36,58 +36,53 @@ public class RPNCalculatorTest extends TestCase {
         addStore = new String[3];
         addStore[0] = "1";
         addStore[1] = "2";
-        addStore[2] = "+";
 
         subStore = new String[3];
         subStore[0] = "1";
         subStore[1] = "2";
-        subStore[2] = "-";
 
         multiStore = new String[3];
         multiStore[0] = "1";
         multiStore[1] = "2";
-        multiStore[2] = "*";
 
         divStore = new String[3];
         divStore[0] = "1";
         divStore[1] = "2";
-        divStore[2] = "/";
 
         oooStore = new String[3];
         oooStore[0] = "1";
         oooStore[1] = "0";
-        oooStore[2] = "/";
     }
 
     /**
-     * Test for {@link RPNCalculator#evaluate(String[])}
+     * Test for {@link RPNCalculator#evaluate(String[],String)}
      */
     public void testEvaluate() {
-        String emptyResult = RPNCalculator.evaluate(emptyStore);
+        String emptyResult = RPNCalculator.evaluate(emptyStore,null);
         assertEquals("",emptyResult);
 
-        String oneInStoreResult = RPNCalculator.evaluate(oneInStore);
+        String oneInStoreResult = RPNCalculator.evaluate(oneInStore,null);
         assertEquals("",oneInStoreResult);
 
-        String twoInStoreResult = RPNCalculator.evaluate(twoInStore);
+        String twoInStoreResult = RPNCalculator.evaluate(twoInStore,null);
         assertEquals("",twoInStoreResult);
 
-        String manyInStoreResult = RPNCalculator.evaluate(manyInStore);
+        String manyInStoreResult = RPNCalculator.evaluate(manyInStore,null);
         assertEquals("",manyInStoreResult);
 
-        String addResult = RPNCalculator.evaluate(addStore);
+        String addResult = RPNCalculator.evaluate(addStore,"+");
         assertEquals("3.0",addResult);
 
-        String subResult = RPNCalculator.evaluate(subStore);
+        String subResult = RPNCalculator.evaluate(subStore,"-");
         assertEquals("-1.0",subResult);
 
-        String multiResult = RPNCalculator.evaluate(multiStore);
+        String multiResult = RPNCalculator.evaluate(multiStore,"*");
         assertEquals("2.0",multiResult);
 
-        String divResult = RPNCalculator.evaluate(divStore);
+        String divResult = RPNCalculator.evaluate(divStore,"/");
         assertEquals("0.5",divResult);
 
-        String oooResult = RPNCalculator.evaluate(oooStore);
+        String oooResult = RPNCalculator.evaluate(oooStore,"/");
         assertEquals("Infinity",oooResult);
     }
 
@@ -102,10 +97,10 @@ public class RPNCalculatorTest extends TestCase {
         assertFalse(resultB);
 
         boolean resultC = RPNCalculator.canEvaluate(twoInStore);
-        assertFalse(resultC);
+        assertTrue(resultC);
 
         boolean resultD = RPNCalculator.canEvaluate(manyInStore);
-        assertFalse(resultD);
+        assertTrue(resultD);
 
         boolean resultE = RPNCalculator.canEvaluate(addStore);
         assertTrue(resultE);
